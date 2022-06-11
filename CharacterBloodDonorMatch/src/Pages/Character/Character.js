@@ -29,7 +29,7 @@ export default function Character() {
 
   const location = useLocation();
   const {data} = location.state;
-  const characterData = data.Character;
+  const characterData = data.Character; //need to convert One Piece character bloodtypes to normal 
   console.log(characterData);
   console.log("BloodType: ",characterData.bloodType)
 
@@ -60,7 +60,7 @@ export default function Character() {
       <div className='Donors'>
         {data.Page.characters.map((Character) => {
           return (
-            Character.bloodType && 
+            Character.bloodType && isValidDonor(Character.bloodType) &&
               <div key={Character.id}>
                 <img src = {Character.image.medium}></img>
                 <h2>ID: {Character.id}</h2>
@@ -74,7 +74,22 @@ export default function Character() {
   }
 
   function updateQuery(){
+  }
 
+  function isValidDonor(donorBT){
+    let recipientBT = characterData.bloodType
+    if(recipientBT === "O"){
+        return donorBT ==="O" ? true : false
+    }else if(recipientBT === "A"){
+        return (donorBT ==="O" || donorBT ==="A") ? true : false
+    }else if(recipientBT === "B"){
+        return (donorBT ==="O" || donorBT ==="B") ? true : false
+    }else if(recipientBT === "AB"){
+      return donorBT === "AB" ? true : false
+    }else{
+      console.log("invalid recipient bloodtype")
+      return false
+    }
   }
   
 }
