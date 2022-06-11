@@ -1,7 +1,7 @@
-import React from 'react'
-import { useState } from 'react'
+import { React, useState } from 'react'
 import { gql, useLazyQuery } from '@apollo/client'
 import { useNavigate } from 'react-router-dom';
+// import "./Home.css"
 
 const GET_CHARACTER = gql`
   query($name: String){
@@ -15,6 +15,15 @@ const GET_CHARACTER = gql`
       image{
         medium
       }
+      media(type: ANIME){
+        nodes {
+          id
+          title {
+            userPreferred
+          }
+          popularity
+        }
+      }    
     }
   }
 `;
@@ -30,15 +39,15 @@ export default function Home() {
   const navigate = useNavigate();
   return (
     <div> 
-      <h1>Find a character's blood type</h1>
+      <h1>Find An Anime Character's Possible Blood Donors</h1>
         <input value={name} onChange={(e) => {
           setName(e.target.value)
           getCharacter()
         }} />
         <button onClick={() =>{
           data && data.Character.bloodType && navigate("/Character", {state:{data}})
-        }}>
-            Search
+          }}>
+          Search
         </button>
       {loading && <div>Loading...</div>}
       {error && <div>Character not found</div>}
@@ -47,8 +56,23 @@ export default function Home() {
           <img src = {data.Character.image.medium}></img>
           <p>Name: {data.Character.name.full}</p>
           <p>Bloodtype: {data.Character.bloodType? data.Character.bloodType : "UNKNOWN"}</p>
+          <p>Anime: {mostPopularMedia(data.Character.media.nodes).title.userPreferred}</p>
         </div>
       )}
     </div>
   )
+}
+
+//utility function that returns the most popular media of type ANIME a donor is affiliated with
+//since character has a list of media nodes, and need to only display one, most popular one is sufficient
+export function mostPopularMedia(mediaList){
+  let mostPopularMedia = null;
+  let popularity = 0;
+  mediaList.forEach(media=>{
+    if(media.popularity > popularity){
+      popularity = media.popularity
+      mostPopularMedia = media;
+    }
+  })
+  return  mostPopularMedia
 }

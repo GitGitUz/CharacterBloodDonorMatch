@@ -1,8 +1,5 @@
-// import React, { useState, useEffect } from "react";
-// import React from "react";
 import Home from "./Pages/Home/Home";
 import Character from "./Pages/Character/Character";
-
 import { Route, Routes } from "react-router-dom"
 // import "./App.css"
 
