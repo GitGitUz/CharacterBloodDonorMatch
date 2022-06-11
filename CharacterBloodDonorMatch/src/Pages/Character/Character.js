@@ -1,33 +1,80 @@
 import React from 'react'
-import { useQuery } from "@apollo/client";
+import { gql, useQuery } from "@apollo/client";
 import { useLocation } from 'react-router';
 // import "./AnimeList.css"
+
+
+const GET_DONORS = gql`
+  query($page: Int){
+    Page(page: $page){
+      pageInfo {
+        currentPage
+        hasNextPage
+      }
+      characters{
+        id
+        name {
+          full
+        }
+        bloodType
+        image {
+          medium
+        }
+      }
+    }
+  }
+`;
 
 export default function Character() {
 
   const location = useLocation();
-  const { data } = location.state;
-  console.log(data);
+  const {data} = location.state;
+  const characterData = data.Character;
+  console.log(characterData);
+  console.log("BloodType: ",characterData.bloodType)
 
   return(
-    <div>Reached {data.Character.name.full}'s Page</div>
+    <div>
+      <h1>{characterData.name.full}'s Possible Blood Donors</h1>
+      <img src = {characterData.image.medium}></img>
+      <p>Bloodtype: {characterData.bloodType}</p>
+      <hr></hr>
+      {useDonors()}
+    </div>
   );
-  // const { loading, error, data } = useQuery(GET_AOT);
-  // console.log(error, loading, data);
-  
-  // if(loading){return <div>Loading...</div>}
-  // if(error){return <div>Something Went Wrong</div>}
 
-  // return (
-  //   <div className='Character'>
-  //     {data.Page.media.map((media) => {
-  //       return (
-  //         <div key={media.id}>
-  //           <img src ={media.coverImage.medium}/>
-  //           <h2>{media.title.userPreferred}</h2>
-  //         </div>
-  //       );
-  //     })}
-  //   </div>
-  // );
+  function useDonors(){
+    const { loading, error, data, refetch, fetchMore } = useQuery(GET_DONORS);
+  
+    console.log(error, loading, data);
+
+    if(loading){return <div>Loading...</div>}
+    if(error){return <div>Something Went Wrong</div>}
+
+    if(data.Page.pageInfo.hasNextPage){
+      const nextPage = data.Page.pageInfo.currentPage + 1
+      console.log(nextPage)
+    }
+
+    return (
+      <div className='Donors'>
+        {data.Page.characters.map((Character) => {
+          return (
+            Character.bloodType && 
+              <div key={Character.id}>
+                <img src = {Character.image.medium}></img>
+                <h2>ID: {Character.id}</h2>
+                <h3>{Character.name.full}</h3>
+                <p>Bloodtype: {Character.bloodType}</p>
+              </div>
+          );
+        })}
+      </div>
+    );
+  }
+
+  function updateQuery(){
+
+  }
+  
 }
