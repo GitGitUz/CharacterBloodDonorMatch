@@ -8,7 +8,6 @@ const GET_CHARACTER = gql`
     Character(search: $name){
       id
       name {
-        full
         userPreferred
       }
       bloodType
@@ -19,6 +18,7 @@ const GET_CHARACTER = gql`
         nodes {
           id
           title {
+            english
             userPreferred
           }
           popularity
@@ -45,18 +45,17 @@ export default function Home() {
           getCharacter()
         }} />
         <button onClick={() =>{
-          data && data.Character.bloodType && navigate("/Character", {state:{data}})
-          }}>
-          Search
+                  data && data.Character.bloodType && navigate("/Character", {state:{data}})
+                }}>Search
         </button>
       {loading && <div>Loading...</div>}
       {error && <div>Character not found</div>}
       {data && (
         <div key={data.Character.id}>
           <img src = {data.Character.image.medium}></img>
-          <p>Name: {data.Character.name.full}</p>
+          <p>Name: {data.Character.name.userPreferred}</p>
           <p>Bloodtype: {data.Character.bloodType? data.Character.bloodType : "UNKNOWN"}</p>
-          <p>Anime: {mostPopularMedia(data.Character.media.nodes).title.userPreferred}</p>
+          <p>Anime: {mostPopularMedia(data.Character.media.nodes).title.english}</p>
         </div>
       )}
     </div>

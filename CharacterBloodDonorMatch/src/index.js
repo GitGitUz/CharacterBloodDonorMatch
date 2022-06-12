@@ -7,16 +7,18 @@ import { BrowserRouter } from "react-router-dom";
 const client = new ApolloClient({ //gives Apollo client information about GQL endpoint
   uri: 'https://graphql.anilist.co',
   cache: new InMemoryCache({
-    typePolicies: {
-      Character: {
-        name: {
-          merge(existing, incoming, { mergeObjects }) {
-            return mergeObjects(existing, incoming);
-          },
-        },
-      },
-    },
-  })
+    // typePolicies: {
+    //   Query: {
+    //     Page: relayStylePagination()//{
+    //       // keyArgs: false,
+    //       // merge(existing = [], incoming) {
+    //       //   return [...existing, ...incoming];
+    //       // },
+    //     // },
+    //   },
+    // },
+  }),
+  connectToDevTools: true
 });
 
 const root = ReactDOM.createRoot(document.getElementById('root')); //establishes connection between Apollo client and React app
