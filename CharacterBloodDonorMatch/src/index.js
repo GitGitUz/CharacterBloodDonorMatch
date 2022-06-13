@@ -7,16 +7,20 @@ import { BrowserRouter } from "react-router-dom";
 const client = new ApolloClient({ //gives Apollo client information about GQL endpoint
   uri: 'https://graphql.anilist.co',
   cache: new InMemoryCache({
-    // typePolicies: {
-    //   Query: {
-    //     Page: relayStylePagination()//{
-    //       // keyArgs: false,
-    //       // merge(existing = [], incoming) {
-    //       //   return [...existing, ...incoming];
-    //       // },
-    //     // },
-    //   },
-    // },
+    typePolicies: {
+      Page: {
+        fields: {
+          characters: {
+            keyArgs: ["id"],
+            merge(existing=[], incoming) {
+              console.log('EXISTING CHARS', existing);
+              console.log('INCOMING CHARS', incoming);
+              return [...existing, ...incoming];
+            },
+          },
+        },
+      },
+    },
   }),
   connectToDevTools: true
 });
@@ -24,11 +28,11 @@ const client = new ApolloClient({ //gives Apollo client information about GQL en
 const root = ReactDOM.createRoot(document.getElementById('root')); //establishes connection between Apollo client and React app
 root.render(  
   <React.StrictMode>
-    <BrowserRouter>
-      <ApolloProvider client={client}>
+    <ApolloProvider client={client}>
+      <BrowserRouter>
         <App />
-      </ApolloProvider>
-    </BrowserRouter>
+      </BrowserRouter>
+    </ApolloProvider>
   </React.StrictMode>
 );
 
