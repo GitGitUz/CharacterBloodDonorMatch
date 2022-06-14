@@ -13,7 +13,7 @@ const GET_DONORS = gql`
         lastPage
         hasNextPage
       }
-      characters(sort: FAVOURITES_DESC){
+      characters{
         id
         name {
           userPreferred
@@ -58,68 +58,11 @@ export default function Character() {
   );
 }
 //-------------ATTEMPTING INFINITE SCROLL PAGINATION-------------
-//custom hook that handles showing the list of possible donors
-// function useDonors(characterData){
-//   // const [page,setPage] = useState(1)
-//   const { error, loading, data, fetchMore } = useQuery(GET_DONORS, {
-//     variables: {
-//       page:1
-//     }  
-//   });
-
-//   console.log(error, loading, data)
-
-//   if(loading){return <div>Loading...</div>}
-//   if(error){return <div>Something Went Wrong</div>}
-
-//   console.log(`PAGE: ${data.Page.pageInfo.currentPage}`)
-
-//   return (
-//     <DonorList
-//       data = {data|| []}
-//       onLoadMore = {()=>
-//         fetchMore({
-//           variables: {
-//             page: data.Page.pageInfo.currentPage+1
-//           },
-//         })}
-//       characterData = {characterData}
-//     />
-//   );
-
-  
-// }
-
-// function DonorList({data, onLoadMore, characterData}) {
-//   console.log("DATA: ", data)
-//   // console.log("PAGE: ", page)
-
-//   return (
-//     <div className='Donors'>
-//       {data.Page.characters.map((Character) => {
-//         return (
-//           isValidDonor(Character.bloodType,characterData.bloodType) && Character.id !== characterData.id &&
-//             <div key={Character.id}>
-//               <img src = {Character.image.medium}></img>
-//               <h2>{Character.name.userPreferred}</h2>
-//               <p>ID: {Character.id}</p>
-//               <p>Bloodtype: {Character.bloodType}</p>
-//               <p>Anime: {mostPopularMedia(Character.media.nodes).title.english}</p>
-//             </div>
-//         );
-//       })}
-//       <button disabled ={!data.Page.pageInfo.hasNextPage} onClick={onLoadMore}>Load more...</button>
-//     </div>
-//   );
-// }
-
-//-------------PAGINATION VIA STATE CHANGE & PREVIOUS/NEXT PAGE BUTTONS-------------
 function useDonors(characterData){
-  const [page, setPage] = useState(1)
-  const { error, loading, data } = useQuery(GET_DONORS, {
+  const [page,setPage] = useState(1)
+  const { error, loading, data, fetchMore } = useQuery(GET_DONORS, {
     variables: {
-      page,
-      perPage: 50
+      page:page
     }  
   });
 
@@ -128,34 +71,89 @@ function useDonors(characterData){
   if(loading){return <div>Loading...</div>}
   if(error){return <div>Something Went Wrong</div>}
 
+  console.log(`PAGE: ${data.Page.pageInfo.currentPage}`)
+
   return (
-    <div>
-      <DonorList/>
-      <button disabled ={data.Page.pageInfo.currentPage<=1} onClick={()=>{ setPage((prev) => prev-1)}}>Page:{data.Page.pageInfo.currentPage>1? data.Page.pageInfo.currentPage-1:""}</button>
-      <button disabled ={!data.Page.pageInfo.hasNextPage} onClick={()=>{ setPage((prev) => prev+1)}}>Page: {data.Page.pageInfo.currentPage+1}</button>
+    <DonorList
+      data = {data|| []}
+      onLoadMore = {()=>
+        // fetchMore({
+        //   variables: {
+        //     page: data.Page.pageInfo.currentPage+1
+        //   },
+        // }).then(
+          setPage((prev) => prev+1)}
+      characterData = {characterData}
+    />
+  ); 
+}
+
+function DonorList({data, onLoadMore, characterData}) {
+  console.log("DATA: ", data)
+  // console.log("PAGE: ", page)
+
+  return (
+    <div className='Donors'>
+      {data.Page.characters.map((Character) => {
+        return (
+          isValidDonor(Character.bloodType,characterData.bloodType) && Character.id !== characterData.id &&
+            <div key={Character.id}>
+              <img src = {Character.image.medium}></img>
+              <h2>{Character.name.userPreferred}</h2>
+              <p>ID: {Character.id}</p>
+              <p>Bloodtype: {Character.bloodType}</p>
+              <p>Anime: {mostPopularMedia(Character.media.nodes).title.english}</p>
+            </div>
+        );
+      })}
+      <button disabled ={!data.Page.pageInfo.hasNextPage} onClick={onLoadMore}>Load more...</button>
     </div>
   );
-
-  function DonorList() {
-    console.log("DATA: ", data)
-    return (
-      <div className='Donors'>
-        {data.Page.characters.map((Character) => {
-          return (
-            isValidDonor(Character.bloodType,characterData.bloodType) && Character.id !== characterData.id &&
-              <div key={Character.id}>
-                <img src = {Character.image.medium}></img>
-                <h2>{Character.name.userPreferred}</h2>
-                <p>ID: {Character.id}</p>
-                <p>Bloodtype: {Character.bloodType}</p>
-                <p>Anime: {mostPopularMedia(Character.media.nodes).title.english}</p>
-              </div>
-          );
-        })}
-      </div>
-    );
-  }
 }
+
+//-------------PAGINATION VIA STATE CHANGE & PREVIOUS/NEXT PAGE BUTTONS-------------
+// function useDonors(characterData){
+//   const [page, setPage] = useState(1)
+//   const { error, loading, data } = useQuery(GET_DONORS, {
+//     variables: {
+//       page,
+//       perPage: 50
+//     }  
+//   });
+
+//   console.log(error, loading, data)
+
+//   if(loading){return <div>Loading...</div>}
+//   if(error){return <div>Something Went Wrong</div>}
+
+//   return (
+//     <div>
+//       <DonorList/>
+//       <button disabled ={data.Page.pageInfo.currentPage<=1} onClick={()=>{ setPage((prev) => prev-1)}}>Page:{data.Page.pageInfo.currentPage>1? data.Page.pageInfo.currentPage-1:""}</button>
+//       <button disabled ={!data.Page.pageInfo.hasNextPage} onClick={()=>{ setPage((prev) => prev+1)}}>Page: {data.Page.pageInfo.currentPage+1}</button>
+//     </div>
+//   );
+
+//   function DonorList() {
+//     console.log("DATA: ", data)
+//     return (
+//       <div className='Donors'>
+//         {data.Page.characters.map((Character) => {
+//           return (
+//             isValidDonor(Character.bloodType,characterData.bloodType) && Character.id !== characterData.id &&
+//               <div key={Character.id}>
+//                 <img src = {Character.image.medium}></img>
+//                 <h2>{Character.name.userPreferred}</h2>
+//                 <p>ID: {Character.id}</p>
+//                 <p>Bloodtype: {Character.bloodType}</p>
+//                 <p>Anime: {mostPopularMedia(Character.media.nodes).title.english}</p>
+//               </div>
+//           );
+//         })}
+//       </div>
+//     );
+//   }
+// }
 
 //-------------FAKE PAGINATION USING A MASTER SET OF DONORS-------------
 // function useDonors(characterData){
@@ -212,14 +210,17 @@ function useDonors(characterData){
 //only valid donors should be displayed despite query returning all characters page by page
 //API has no way to filter by bloodtype so have to manually filter 
 function isValidDonor(donorBT, recipientBT){
-  if(recipientBT === "O"){
-    return donorBT ==="O" ? true : false
-  }else if(recipientBT === "A"){
-    return (donorBT ==="O" || donorBT ==="A") ? true : false
-  }else if(recipientBT === "B"){
-    return (donorBT ==="O" || donorBT ==="B") ? true : false
-  }else if(recipientBT === "AB"){
-    return donorBT === "AB" ? true : false
+ 
+  var usopp = "S Rh+" //special case for usopp because API has his bloodtype wrong
+
+  if(recipientBT === ("O" || "S") || usopp.normalize() === recipientBT.normalize()){
+    return (donorBT === ("O" || "S")) ? true : false
+  }else if(recipientBT === ("A" || "X")){
+    return (donorBT === ("O" || "A" || "S" || "X")) ? true : false
+  }else if(recipientBT === ("B" || "F")){
+    return (donorBT === ("O" || "B" || "S" || "F")) ? true : false
+  }else if(recipientBT === ( "AB" || "XF")){
+    return donorBT? true : false
   }else{
     console.log("invalid recipient bloodtype")
     return false

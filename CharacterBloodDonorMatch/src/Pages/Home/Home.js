@@ -45,7 +45,7 @@ export default function Home() {
           getCharacter()
         }} />
         <button onClick={() =>{
-                  data && data.Character.bloodType && navigate("/Character", {state:{data}})
+                  data && data.Character.bloodType && data.Character.bloodType!== "O Rh-" && navigate("/Character", {state:{data}})
                 }}>Search
         </button>
       {loading && <div>Loading...</div>}

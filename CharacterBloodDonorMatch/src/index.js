@@ -10,8 +10,16 @@ const client = new ApolloClient({ //gives Apollo client information about GQL en
     typePolicies: {
       Page: {
         fields: {
+          pageInfo: {
+            keyArgs: ["currentPage", "lastPage", "hasNextPage"],
+            merge(existing=[], incoming) {
+              console.log('EXISTING PI', existing);
+              console.log('INCOMING PI', incoming);
+              return incoming;
+            },
+          },
           characters: {
-            keyArgs: ["id"],
+            keyArgs: false,
             merge(existing=[], incoming) {
               console.log('EXISTING CHARS', existing);
               console.log('INCOMING CHARS', incoming);
