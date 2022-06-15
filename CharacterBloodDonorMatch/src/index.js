@@ -9,15 +9,8 @@ const client = new ApolloClient({ //gives Apollo client information about GQL en
   cache: new InMemoryCache({
     typePolicies: {
       Page: {
+        keyFields:[],
         fields: {
-          pageInfo: {
-            keyArgs: ["currentPage", "lastPage", "hasNextPage"],
-            merge(existing=[], incoming) {
-              console.log('EXISTING PI', existing);
-              console.log('INCOMING PI', incoming);
-              return incoming;
-            },
-          },
           characters: {
             keyArgs: false,
             merge(existing=[], incoming) {

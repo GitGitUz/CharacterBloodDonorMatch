@@ -53,16 +53,18 @@ export default function Character() {
       <p>Bloodtype: {characterData.bloodType}</p>
       <p>Anime: {mostPopularMedia(characterData.media.nodes).title.english}</p>
       <hr></hr>
+      {console.log("RIGHT BEOFRE LIST")}
       {useDonors(characterData)}
     </div> 
   );
 }
 //-------------ATTEMPTING INFINITE SCROLL PAGINATION-------------
 function useDonors(characterData){
-  const [page,setPage] = useState(1)
+  // const [page,setPage] = useState(1)
+  console.log("INSIDE USEDONORS")
   const { error, loading, data, fetchMore } = useQuery(GET_DONORS, {
     variables: {
-      page:page
+      page: 1
     }  
   });
 
@@ -77,25 +79,25 @@ function useDonors(characterData){
     <DonorList
       data = {data|| []}
       onLoadMore = {()=>
-        // fetchMore({
-        //   variables: {
-        //     page: data.Page.pageInfo.currentPage+1
-        //   },
-        // }).then(
-          setPage((prev) => prev+1)}
+        fetchMore({
+          variables: {
+            page: data.Page.pageInfo.currentPage+1
+          },
+        })}
+        //.then(setPage((prev) => prev+1)}
       characterData = {characterData}
     />
   ); 
 }
 
 function DonorList({data, onLoadMore, characterData}) {
-  console.log("DATA: ", data)
-  // console.log("PAGE: ", page)
+  console.log("DATA IN COMPONENT: ", data)
 
   return (
     <div className='Donors'>
       {data.Page.characters.map((Character) => {
         return (
+          console.log("INSIDE MAP FUNCTION"),
           isValidDonor(Character.bloodType,characterData.bloodType) && Character.id !== characterData.id &&
             <div key={Character.id}>
               <img src = {Character.image.medium}></img>
@@ -155,71 +157,20 @@ function DonorList({data, onLoadMore, characterData}) {
 //   }
 // }
 
-//-------------FAKE PAGINATION USING A MASTER SET OF DONORS-------------
-// function useDonors(characterData){
-//   console.log("NUM DONORS: ",donors.size)
-//   const [ page, setPage ] = useState(1)
-//   const { loading, error, data } = useQuery(GET_DONORS,{
-//     variables:{
-//       page
-//     }
-//   })
-
-//   const btnRef = useRef(null);
-
-//   const scrollToBottom = () => {
-//     btnRef.current.scrollIntoView({ behavior: "auto", block: "end" })
-//   }
-//   useEffect(() => {
-//     if(btnRef.current){
-//       scrollToBottom()
-//     }
-//   });
-
-//   console.log(error, loading, data);
-
-//   if(loading){return <div>Loading...</div>}
-//   if(error){return <div>Something Went Wrong</div>}
-
-//   /*Faux pagination since AniList GQL API does not support cursor or offset based pagination as specified by the Apollo API documentation
-//     Offset based pagination would work but based on schema, merging Page objects not possible due to character id fields not being stritly sequential for a given character[]*/
-//   data.Page.characters.forEach(c => { 
-//     isValidDonor(c.bloodType,characterData.bloodType) && donors.add(c)
-//   });
-
-//   return (
-//       <div className='Donors'>
-//         {[...donors].map((Character) => {
-//           return (
-//             Character.id !== characterData.id &&
-//               <div key={Character.id}>
-//                 <img src = {Character.image.medium}></img>
-//                 <h2>{Character.name.userPreferred}</h2>
-//                 <p>ID: {Character.id}</p>
-//                 <p>Bloodtype: {Character.bloodType}</p>
-//                 <p>Anime: {mostPopularMedia(Character.media.nodes).title.english}</p>
-//               </div>
-//           );
-//         })}
-//       <button ref={btnRef} disabled ={!data.Page.pageInfo.hasNextPage} onClick={()=>{ setPage((prev) => prev+1)}}>Load more...</button>
-//       </div>
-//   );
-// }
-
 //utility function that returns if a queried character is a valid donor for the recipient following blood type rules
 //only valid donors should be displayed despite query returning all characters page by page
 //API has no way to filter by bloodtype so have to manually filter 
 function isValidDonor(donorBT, recipientBT){
- 
-  var usopp = "S Rh+" //special case for usopp because API has his bloodtype wrong
 
-  if(recipientBT === ("O" || "S") || usopp.normalize() === recipientBT.normalize()){
-    return (donorBT === ("O" || "S")) ? true : false
-  }else if(recipientBT === ("A" || "X")){
-    return (donorBT === ("O" || "A" || "S" || "X")) ? true : false
-  }else if(recipientBT === ("B" || "F")){
-    return (donorBT === ("O" || "B" || "S" || "F")) ? true : false
-  }else if(recipientBT === ( "AB" || "XF")){
+  var usopp = "S Rh+" //special case for Usopp from One Piece because API has his bloodtype wrong
+
+  if(recipientBT === "O" || recipientBT === "S" || usopp.normalize() === recipientBT.normalize()){
+    return (donorBT === "O" || donorBT === "S") ? true : false
+  }else if(recipientBT === "A" || recipientBT === "X"){
+    return (donorBT === "O" || donorBT === "A" || donorBT === "S" || donorBT === "X") ? true : false
+  }else if(recipientBT === "B" || recipientBT === "F"){
+    return (donorBT === "O" || donorBT === "B" || donorBT === "S" || donorBT === "F") ? true : false
+  }else if(recipientBT === "AB" || recipientBT === "XF"){
     return donorBT? true : false
   }else{
     console.log("invalid recipient bloodtype")
