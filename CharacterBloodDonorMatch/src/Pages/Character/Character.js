@@ -1,7 +1,7 @@
-import { React, useEffect, useState, useRef } from 'react'
+import { React } from 'react'
 import { gql, useQuery } from "@apollo/client";
 import { useLocation } from 'react-router';
-import { mostPopularMedia } from '../Home/Home';
+import { mostPopularMedia, isValidDonor } from '../Home/Home';
 // import "./Character.css"
 
 const GET_DONORS = gql`
@@ -13,7 +13,7 @@ const GET_DONORS = gql`
         lastPage
         hasNextPage
       }
-      characters{
+      characters(sort: FAVOURITES_DESC){
         id
         name {
           userPreferred
@@ -37,42 +37,34 @@ const GET_DONORS = gql`
   }
 `;
 
-// const donors = new Set();
-
 export default function Character() {
   const location = useLocation();
   const {data} = location.state;
   const characterData = data.Character; //need to convert One Piece character bloodtypes to normal 
-  // console.log(characterData);
-  // console.log("BloodType: ",characterData.bloodType)
 
   return(
     <div>
       <h1>{characterData.name.userPreferred}'s Possible Blood Donors</h1>
       <img src = {characterData.image.medium}></img>
       <p>Bloodtype: {characterData.bloodType}</p>
-      <p>Anime: {mostPopularMedia(characterData.media.nodes).title.english}</p>
+      <p>Anime: {mostPopularMedia(characterData.media.nodes)}</p>
       <hr></hr>
-      {console.log("RIGHT BEOFRE LIST")}
       {useDonors(characterData)}
     </div> 
   );
 }
-//-------------ATTEMPTING INFINITE SCROLL PAGINATION-------------
+//-------------INFINITE SCROLL PAGINATION-------------
 function useDonors(characterData){
-  // const [page,setPage] = useState(1)
-  console.log("INSIDE USEDONORS")
   const { error, loading, data, fetchMore } = useQuery(GET_DONORS, {
     variables: {
       page: 1
-    }  
+    },
   });
-
-  console.log(error, loading, data)
 
   if(loading){return <div>Loading...</div>}
   if(error){return <div>Something Went Wrong</div>}
 
+  console.log(error, loading, data)
   console.log(`PAGE: ${data.Page.pageInfo.currentPage}`)
 
   return (
@@ -82,36 +74,35 @@ function useDonors(characterData){
         fetchMore({
           variables: {
             page: data.Page.pageInfo.currentPage+1
-          },
-        })}
-        //.then(setPage((prev) => prev+1)}
+          }        
+        })
+      }
       characterData = {characterData}
     />
   ); 
 }
 
 function DonorList({data, onLoadMore, characterData}) {
-  console.log("DATA IN COMPONENT: ", data)
-
   return (
     <div className='Donors'>
       {data.Page.characters.map((Character) => {
         return (
-          console.log("INSIDE MAP FUNCTION"),
           isValidDonor(Character.bloodType,characterData.bloodType) && Character.id !== characterData.id &&
             <div key={Character.id}>
               <img src = {Character.image.medium}></img>
               <h2>{Character.name.userPreferred}</h2>
               <p>ID: {Character.id}</p>
               <p>Bloodtype: {Character.bloodType}</p>
-              <p>Anime: {mostPopularMedia(Character.media.nodes).title.english}</p>
+              <p>Anime: {mostPopularMedia(Character.media.nodes)}</p>
             </div>
         );
       })}
       <button disabled ={!data.Page.pageInfo.hasNextPage} onClick={onLoadMore}>Load more...</button>
     </div>
-  );
+  ); 
 }
+
+
 
 //-------------PAGINATION VIA STATE CHANGE & PREVIOUS/NEXT PAGE BUTTONS-------------
 // function useDonors(characterData){
@@ -156,24 +147,3 @@ function DonorList({data, onLoadMore, characterData}) {
 //     );
 //   }
 // }
-
-//utility function that returns if a queried character is a valid donor for the recipient following blood type rules
-//only valid donors should be displayed despite query returning all characters page by page
-//API has no way to filter by bloodtype so have to manually filter 
-function isValidDonor(donorBT, recipientBT){
-
-  var usopp = "S Rh+" //special case for Usopp from One Piece because API has his bloodtype wrong
-
-  if(recipientBT === "O" || recipientBT === "S" || usopp.normalize() === recipientBT.normalize()){
-    return (donorBT === "O" || donorBT === "S") ? true : false
-  }else if(recipientBT === "A" || recipientBT === "X"){
-    return (donorBT === "O" || donorBT === "A" || donorBT === "S" || donorBT === "X") ? true : false
-  }else if(recipientBT === "B" || recipientBT === "F"){
-    return (donorBT === "O" || donorBT === "B" || donorBT === "S" || donorBT === "F") ? true : false
-  }else if(recipientBT === "AB" || recipientBT === "XF"){
-    return donorBT? true : false
-  }else{
-    console.log("invalid recipient bloodtype")
-    return false
-  }
-}
