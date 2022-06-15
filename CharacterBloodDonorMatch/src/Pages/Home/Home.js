@@ -100,7 +100,9 @@ export default function Home() {
     variables: {
       name: name    
     },
-    fetchPolicy : 'network-only'
+    // fetchPolicy : 'no-cache'
+    fetchPolicy : 'cache-first'
+
   })
   const navigate = useNavigate();
 
@@ -133,7 +135,7 @@ export default function Home() {
             fetchMore({
               variables: {
                 page: data.Page.pageInfo.currentPage+1
-              }
+              },
               // nextFetchPolicy: 'cache-first'
               
             })
@@ -141,7 +143,6 @@ export default function Home() {
         />
       }
     </div>
-    
   )
 }
 
