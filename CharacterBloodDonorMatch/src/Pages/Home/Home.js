@@ -3,30 +3,30 @@ import { gql, useQuery, useLazyQuery } from '@apollo/client'
 import { useNavigate } from 'react-router-dom';
 // import "./Home.css"
 
-const GET_CHARACTER = gql`
-  query($name: String){
-    Character(search: $name){
-      id
-      name {
-        userPreferred
-      }
-      bloodType
-      image{
-        medium
-      }
-      media(type: ANIME){
-        nodes {
-          id
-          title {
-            english
-            userPreferred
-          }
-          popularity
-        }
-      }    
-    }
-  }
-`;
+// const GET_CHARACTER = gql`
+//   query($name: String){
+//     Character(search: $name){
+//       id
+//       name {
+//         userPreferred
+//       }
+//       bloodType
+//       image{
+//         medium
+//       }
+//       media(type: ANIME){
+//         nodes {
+//           id
+//           title {
+//             english
+//             userPreferred
+//           }
+//           popularity
+//         }
+//       }    
+//     }
+//   }
+// `;
 
 const GET_CHARACTERS = gql`
   query($name: String, $page: Int){
@@ -95,22 +95,12 @@ export default function Home() {
 
 //-----------new code-----------
   const [name, setName] = useState("");
-  // const [rerender, setRerender] = useState(false);
   const[getCharacters, {loading, error, data, fetchMore}] = useLazyQuery(GET_CHARACTERS, { //getCharacter when called, will execute the query
     variables: {
       name: name    
     },
-    // fetchPolicy : 'no-cache'
-    fetchPolicy : 'cache-first'
-
+    fetchPolicy : 'no-cache',
   })
-  const navigate = useNavigate();
-
-  // useEffect(()=>{
-
-  //   setRerender(!rerender);
-
-  // }, [rerender]);
 
   if(loading){return <div>Loading...</div>}
   if(error){return <div>Something Went Wrong</div>}
@@ -124,7 +114,6 @@ export default function Home() {
       <button onClick={()=> { 
         setName(document.getElementById('charSearch').value)
         getCharacters(name)
-        // setRerender(true)
       }}
       >Search</button>
       <hr></hr>
@@ -136,8 +125,7 @@ export default function Home() {
               variables: {
                 page: data.Page.pageInfo.currentPage+1
               },
-              // nextFetchPolicy: 'cache-first'
-              
+              fetchPolicy: 'cache-first'           
             })
           }
         />
@@ -147,12 +135,14 @@ export default function Home() {
 }
 
 function SearchResults({compData, onLoadMore}){
+  const navigate = useNavigate();
+
   console.log(`Data in Component ${compData}`)
   return (
       <div className='searchChars'>
         {compData.Page.characters.map((Character) => {
           return (
-            <div key={Character.id}>
+            <div key={Character.id} onClick={() =>{Character.bloodType && Character.bloodType!== "O Rh-" && navigate("/Character", {state:Character})}}> 
               <img src = {Character.image.medium}></img>
               <h2>{Character.name.userPreferred}</h2>
               <p>ID: {Character.id}</p>

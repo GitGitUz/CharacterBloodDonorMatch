@@ -39,32 +39,33 @@ const GET_DONORS = gql`
 
 export default function Character() {
   const location = useLocation();
-  const {data} = location.state;
-  const characterData = data.Character; //need to convert One Piece character bloodtypes to normal 
+  const recipient = location.state;
+  console.log("RECIPIENT: ", recipient)
 
-  return(
-    <div>
-      <h1>{characterData.name.userPreferred}'s Possible Blood Donors</h1>
-      <img src = {characterData.image.medium}></img>
-      <p>Bloodtype: {characterData.bloodType}</p>
-      <p>Anime: {mostPopularMedia(characterData.media.nodes)}</p>
-      <hr></hr>
-      {useDonors(characterData)}
-    </div> 
-  );
+    return(
+      <div>
+        <h1>{recipient.name.userPreferred}'s Possible Blood Donors</h1>
+        <img src = {recipient.image.medium}></img>
+        <p>Bloodtype: {recipient.bloodType}</p>
+        <p>Anime: {mostPopularMedia(recipient.media.nodes)}</p>
+        <hr></hr>
+        {useDonors(recipient)}
+      </div> 
+    );
 }
 //-------------INFINITE SCROLL PAGINATION-------------
 function useDonors(characterData){
-  const { error, loading, data, fetchMore } = useQuery(GET_DONORS, {
+  const { loading, error, data, fetchMore } = useQuery(GET_DONORS, {
     variables: {
       page: 1
     },
   });
 
+  console.log(loading, error, data)
+
   if(loading){return <div>Loading...</div>}
   if(error){return <div>Something Went Wrong</div>}
 
-  console.log(error, loading, data)
   console.log(`PAGE: ${data.Page.pageInfo.currentPage}`)
 
   return (
@@ -101,8 +102,6 @@ function DonorList({data, onLoadMore, characterData}) {
     </div>
   ); 
 }
-
-
 
 //-------------PAGINATION VIA STATE CHANGE & PREVIOUS/NEXT PAGE BUTTONS-------------
 // function useDonors(characterData){
