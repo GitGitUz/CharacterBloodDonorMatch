@@ -1,7 +1,7 @@
 import { React } from 'react'
 import { gql, useQuery } from "@apollo/client";
 import { useLocation } from 'react-router';
-import { mostPopularMedia, isValidDonor } from '../Home/Home';
+import { mostPopularMedia } from '../SearchResults/SearchResults';
 // import "./Character.css"
 
 const GET_DONORS = gql`
@@ -22,7 +22,7 @@ const GET_DONORS = gql`
         image {
           medium
         }
-        media (type: ANIME){
+        media {
           nodes {
             id
             title {
@@ -101,6 +101,27 @@ function DonorList({data, onLoadMore, characterData}) {
       <button disabled ={!data.Page.pageInfo.hasNextPage} onClick={onLoadMore}>Load more...</button>
     </div>
   ); 
+}
+
+/*utility function that returns if a queried character is a valid donor for the recipient following blood type rules
+only valid donors should be displayed despite query returning all characters page by page
+API has no way to filter by bloodtype so have to manually filter */ 
+function isValidDonor(donorBT, recipientBT){
+
+  var usopp = "S Rh+" //special case for Usopp from One Piece because API has his bloodtype wrong
+
+  if(recipientBT === "O" || recipientBT === "S" || usopp.normalize() === recipientBT.normalize()){
+    return (donorBT === "O" || donorBT === "S") ? true : false
+  }else if(recipientBT === "A" || recipientBT === "X"){
+    return (donorBT === "O" || donorBT === "A" || donorBT === "S" || donorBT === "X") ? true : false
+  }else if(recipientBT === "B" || recipientBT === "F"){
+    return (donorBT === "O" || donorBT === "B" || donorBT === "S" || donorBT === "F") ? true : false
+  }else if(recipientBT === "AB" || recipientBT === "XF"){
+    return donorBT? true : false
+  }else{
+    console.log("invalid recipient bloodtype")
+    return false
+  }
 }
 
 //-------------PAGINATION VIA STATE CHANGE & PREVIOUS/NEXT PAGE BUTTONS-------------

@@ -12,7 +12,7 @@ const client = new ApolloClient({ //gives Apollo client information about GQL en
         keyFields:[],
         fields: {
           characters: {
-            keyArgs: false,
+            keyArgs: [],
             merge(existing=[], incoming) {
               console.log('EXISTING CHARS', existing);
               console.log('INCOMING CHARS', incoming);
@@ -29,11 +29,11 @@ const client = new ApolloClient({ //gives Apollo client information about GQL en
 const root = ReactDOM.createRoot(document.getElementById('root')); //establishes connection between Apollo client and React app
 root.render(  
   <React.StrictMode>
-    <ApolloProvider client={client}>
-      <BrowserRouter>
+    <BrowserRouter>
+      <ApolloProvider client={client}>
         <App />
-      </BrowserRouter>
-    </ApolloProvider>
+      </ApolloProvider>
+    </BrowserRouter>
   </React.StrictMode>
 );
 
