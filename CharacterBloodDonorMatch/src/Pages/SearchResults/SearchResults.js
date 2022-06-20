@@ -1,41 +1,9 @@
-import { React, useState } from 'react'
-import { gql, useQuery } from '@apollo/client'
+import { React } from 'react'
+import { useQuery } from '@apollo/client'
 import { useLocation } from 'react-router';
 import { useNavigate } from 'react-router-dom';
-// import "./SearchResults.css"
-
-
-const GET_CHARACTERS = gql`
-  query($name: String, $page: Int){
-    Page(page: $page){
-      pageInfo {      
-        currentPage
-        hasNextPage
-      }
-      characters(search: $name, sort: FAVOURITES_DESC){
-        id
-        name {
-          userPreferred
-        }
-        bloodType
-        image {
-          medium
-        }
-        media{
-          nodes {
-            type
-            id
-            title {
-              english
-              userPreferred
-            }
-            popularity
-          }
-        }
-      }
-    }
-  }
-`;
+import { GET_CHARACTERS } from '../../Queries/gql';
+import "./SearchResults.css"
 
 export default function SearchResults() {
   window.onpopstate = () => { //refreshes page and resets cache
@@ -44,13 +12,13 @@ export default function SearchResults() {
 
   const location = useLocation();
   const name = location.state;
-  console.log("NAME: ", name)
 
   return (
-    <div>
-      <h1>Searched for: {name}</h1>
+    <main className='resultsbody'>
+      <h1 id='header'>Showing results for: "{name}"</h1>
+      <hr></hr>
       {useResults(name)}
-    </div>
+    </main>
   )
 }
 
@@ -60,16 +28,13 @@ function useResults(name){
     variables: {
       name: name,
       page: 1
-    },
-    fetchPolicy : 'network-only'
+    }  
   });
 
   console.log(loading, error, data)
 
-  if(loading){return <div>Loading...</div>}
+  if(loading){return <div className='loader'></div>}
   if(error){return <div>Something Went Wrong</div>}
-
-  console.log(`PAGE: ${data.Page.pageInfo.currentPage}`)
 
   return (
     <ResultList
@@ -90,20 +55,24 @@ function ResultList({data, onLoadMore}) {
   const navigate = useNavigate()
 
   return (
-    <div className='Donors'>
-      {data.Page.characters.map((Character) => {
-        return (
-            <div key={Character.id} onClick={() =>{Character.bloodType && Character.bloodType!== "O Rh-" && navigate("/Character", {state:Character})}
-            }>
-              <img src = {Character.image.medium}></img>
-              <h2>{Character.name.userPreferred}</h2>
-              <p>ID: {Character.id}</p>
-              <p>Bloodtype: {Character.bloodType? Character.bloodType:"UNKNOWN"}</p>
-              <p>{mostPopularMedia(Character.media.nodes)}</p>
-            </div>
-        );
-      })}
-      <button disabled ={!data.Page.pageInfo.hasNextPage} onClick={onLoadMore}>Load more...</button>
+    <div className='resultsContainer'>
+      <main className='resultGrid'>
+        {data.Page.characters.map((Character) => {
+          return ( 
+              <div className='result' key={Character.id} onClick={() =>{Character.bloodType && Character.bloodType!== "O Rh-" && navigate("/Character", {state:Character})}}>
+                <img className='image' src = {Character.image.medium} alt="character pic"></img>
+                <h2>{Character.name.userPreferred}</h2>
+                <p>Bloodtype: {Character.bloodType? Character.bloodType:"UNKNOWN"}</p>
+                <p>{mostPopularMedia(Character.media.nodes)}</p>
+              </div>
+          );
+        })}
+      </main>
+      <hr></hr>
+      {data.Page.characters.length > 0 ? 
+      (data.Page.pageInfo.hasNextPage && <button id = 'loadBtn' disabled ={!data.Page.pageInfo.hasNextPage} onClick={onLoadMore}>Load more...</button>)
+       : 
+      <div>No character found</div>}
     </div>
   ); 
 }
@@ -122,6 +91,7 @@ export function mostPopularMedia(mediaList){
     if(mostPopularMedia === null){
         return 'UNKNOWN'
       }else{
+        console.log(mostPopularMedia.type);
         return `${mostPopularMedia.type}: ${mostPopularMedia.title.english? mostPopularMedia.title.english : mostPopularMedia.title.userPreferred}`
       }
 }

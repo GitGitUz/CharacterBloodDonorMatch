@@ -1,6 +1,6 @@
-import { React, useEffect, useState } from 'react'
+import { React, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-// import "./Home.css"
+import "./Home.css"
 
 export default function Home() {
   const [name, setName] = useState("")
@@ -8,13 +8,19 @@ export default function Home() {
   const navigate = useNavigate();
 
   return (
-    <div> 
-      <h1>Find An Anime Character's Possible Blood Donors</h1>
-      <input id='charSearch' onChange={(e) => setName(e.target.value)}/>
-      <button onClick={()=> { 
-        navigate("/SearchResults", {state:name})
-      }}>Search</button>
-    </div>
+    <main className='homebody'>
+      <div className='container'> 
+        <h1 id='prompt'>Which character needs a blood transfusion?</h1>
+        <input id='input' onChange={(e) => setName(e.target.value)}/>
+        <button id='searchBtn' onClick={()=> { name !== "" &&
+          navigate("/SearchResults", {state:name})
+        }}>Search</button>
+        <p id='message'>Your favorite anime character's life might be in danger!
+           Search for them above and hopefully there are some willing
+           blood donors available...</p>
+      </div>
+    </main>
+   
   )  
 }
 

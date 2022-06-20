@@ -1,0 +1,78 @@
+@import url('https://fonts.googleapis.com/css2?family=Carter+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Koulen&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap');
+
+html, body { 
+    margin: 0;
+    padding: 0; 
+    height: 100%; 
+    width: 100%;
+} 
+
+.homebody{
+    height: 100vh;
+    width: 100vw;
+    background-image: url("../../../Images/luffyjimbei.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;    
+    display:inline-block;
+
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.container{
+    margin-top: 5em;
+    text-align: center;
+    line-height: 5em;
+}
+
+#prompt {
+    border-radius: 20px;
+    border: 2px solid black;
+    margin: auto;
+    width: 55%;
+    background-color: rgba(194, 219, 133, .65);
+    font-family: 'Koulen', cursive;    
+    font-size: 3em;
+    letter-spacing: 1.5px;
+}
+
+#input {
+    width: 10em;
+    height: 1.5em;
+    border: 1.5px solid black;
+    border-radius: 5px;
+    margin-top: 2em;
+}
+
+#searchBtn {
+    margin-top: 5em;
+    margin-left: 0.5em;
+    padding-top: 0.2em;
+    width: 5em;
+    height: 2em;
+    font-family: 'Josefin Sans', sans-serif;
+    border: 1.5px solid black;
+    border-radius: 5px;
+}
+
+#searchBtn:hover {
+    background-color: #94d0f5;
+    color: black;
+}
+
+#message {
+    background-color: rgba(187, 226, 255, 0.65);
+    font-family: 'Source Sans Pro', sans-serif;
+    border-radius: 10px;
+    margin: auto;
+    margin-top: 6em;
+    border: 1px solid black;
+    width: 80%;
+    font-size: 1.2em;
+
+}

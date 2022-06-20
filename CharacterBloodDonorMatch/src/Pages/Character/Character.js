@@ -1,56 +1,29 @@
 import { React } from 'react'
-import { gql, useQuery } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { useLocation } from 'react-router';
 import { mostPopularMedia } from '../SearchResults/SearchResults';
-// import "./Character.css"
-
-const GET_DONORS = gql`
-  query($page: Int){
-    Page(page: $page){
-      pageInfo {      
-        currentPage
-        perPage
-        lastPage
-        hasNextPage
-      }
-      characters(sort: FAVOURITES_DESC){
-        id
-        name {
-          userPreferred
-        }
-        bloodType
-        image {
-          medium
-        }
-        media {
-          nodes {
-            id
-            title {
-              english
-              userPreferred
-            }
-            popularity
-          }
-        }
-      }
-    }
-  }
-`;
+import { GET_DONORS } from '../../Queries/gql';
+import "./Character.css"
 
 export default function Character() {
+  window.onpopstate = () => { //refreshes page and resets cache
+    window.location.reload(false);
+  }
+
   const location = useLocation();
   const recipient = location.state;
-  console.log("RECIPIENT: ", recipient)
 
     return(
-      <div>
-        <h1>{recipient.name.userPreferred}'s Possible Blood Donors</h1>
-        <img src = {recipient.image.medium}></img>
-        <p>Bloodtype: {recipient.bloodType}</p>
-        <p>Anime: {mostPopularMedia(recipient.media.nodes)}</p>
+      <main className = 'resultsbody'>
+        <div className='recipientContainer'>
+          <h1>{recipient.name.userPreferred}'s Possible Blood Donors</h1>
+          <img src = {recipient.image.medium} alt='recipient pic'></img>
+          <p>Bloodtype: {recipient.bloodType}</p>
+          <p>{mostPopularMedia(recipient.media.nodes)}</p>
+        </div>
         <hr></hr>
         {useDonors(recipient)}
-      </div> 
+      </main> 
     );
 }
 //-------------INFINITE SCROLL PAGINATION-------------
@@ -58,12 +31,12 @@ function useDonors(characterData){
   const { loading, error, data, fetchMore } = useQuery(GET_DONORS, {
     variables: {
       page: 1
-    },
+    }
   });
 
   console.log(loading, error, data)
 
-  if(loading){return <div>Loading...</div>}
+  if(loading){return <div className='loader'></div>}
   if(error){return <div>Something Went Wrong</div>}
 
   console.log(`PAGE: ${data.Page.pageInfo.currentPage}`)
@@ -85,20 +58,22 @@ function useDonors(characterData){
 
 function DonorList({data, onLoadMore, characterData}) {
   return (
-    <div className='Donors'>
-      {data.Page.characters.map((Character) => {
-        return (
-          isValidDonor(Character.bloodType,characterData.bloodType) && Character.id !== characterData.id &&
-            <div key={Character.id}>
-              <img src = {Character.image.medium}></img>
-              <h2>{Character.name.userPreferred}</h2>
-              <p>ID: {Character.id}</p>
-              <p>Bloodtype: {Character.bloodType}</p>
-              <p>Anime: {mostPopularMedia(Character.media.nodes)}</p>
-            </div>
-        );
-      })}
-      <button disabled ={!data.Page.pageInfo.hasNextPage} onClick={onLoadMore}>Load more...</button>
+    <div className='donorsContainer'>
+      <main className='resultGrid'>
+        {data.Page.characters.map((Character) => {
+          return (
+            isValidDonor(Character.bloodType,characterData.bloodType) && Character.id !== characterData.id &&
+              <div className = 'result' key={Character.id}>
+                <img className = 'image' src = {Character.image.medium} alt="character pic"></img>
+                <h2>{Character.name.userPreferred}</h2>
+                <p>Bloodtype: {Character.bloodType}</p>
+                <p>{mostPopularMedia(Character.media.nodes)}</p>
+              </div>
+          );
+        })}
+      </main>
+      <hr></hr>
+      {data.Page.pageInfo.hasNextPage && <button id = 'loadBtn' disabled ={!data.Page.pageInfo.hasNextPage} onClick={onLoadMore}>Load more...</button>}
     </div>
   ); 
 }
@@ -123,47 +98,3 @@ function isValidDonor(donorBT, recipientBT){
     return false
   }
 }
-
-//-------------PAGINATION VIA STATE CHANGE & PREVIOUS/NEXT PAGE BUTTONS-------------
-// function useDonors(characterData){
-//   const [page, setPage] = useState(1)
-//   const { error, loading, data } = useQuery(GET_DONORS, {
-//     variables: {
-//       page,
-//       perPage: 50
-//     }  
-//   });
-
-//   console.log(error, loading, data)
-
-//   if(loading){return <div>Loading...</div>}
-//   if(error){return <div>Something Went Wrong</div>}
-
-//   return (
-//     <div>
-//       <DonorList/>
-//       <button disabled ={data.Page.pageInfo.currentPage<=1} onClick={()=>{ setPage((prev) => prev-1)}}>Page:{data.Page.pageInfo.currentPage>1? data.Page.pageInfo.currentPage-1:""}</button>
-//       <button disabled ={!data.Page.pageInfo.hasNextPage} onClick={()=>{ setPage((prev) => prev+1)}}>Page: {data.Page.pageInfo.currentPage+1}</button>
-//     </div>
-//   );
-
-//   function DonorList() {
-//     console.log("DATA: ", data)
-//     return (
-//       <div className='Donors'>
-//         {data.Page.characters.map((Character) => {
-//           return (
-//             isValidDonor(Character.bloodType,characterData.bloodType) && Character.id !== characterData.id &&
-//               <div key={Character.id}>
-//                 <img src = {Character.image.medium}></img>
-//                 <h2>{Character.name.userPreferred}</h2>
-//                 <p>ID: {Character.id}</p>
-//                 <p>Bloodtype: {Character.bloodType}</p>
-//                 <p>Anime: {mostPopularMedia(Character.media.nodes).title.english}</p>
-//               </div>
-//           );
-//         })}
-//       </div>
-//     );
-//   }
-// }
