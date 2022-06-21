@@ -1,11 +1,11 @@
 import { React } from 'react'
 import { useQuery } from "@apollo/client";
-import { useLocation } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 import { mostPopularMedia } from '../SearchResults/SearchResults';
 import { GET_DONORS } from '../../Queries/gql';
-import "./Character.css"
+import "./Donors.css"
 
-export default function Character() {
+export default function Donors() {
   window.onpopstate = () => { //refreshes page and resets cache
     window.location.reload(false);
   }
@@ -14,7 +14,7 @@ export default function Character() {
   const recipient = location.state;
 
     return(
-      <main className = 'resultsbody'>
+      <main className = 'body'>
         <div className='recipientContainer'>
           <h1>{recipient.name.userPreferred}'s Possible Blood Donors</h1>
           <img src = {recipient.image.medium} alt='recipient pic'></img>
@@ -39,8 +39,6 @@ function useDonors(characterData){
   if(loading){return <div className='loader'></div>}
   if(error){return <div>Something Went Wrong</div>}
 
-  console.log(`PAGE: ${data.Page.pageInfo.currentPage}`)
-
   return (
     <DonorList
       data = {data|| []}
@@ -57,13 +55,16 @@ function useDonors(characterData){
 }
 
 function DonorList({data, onLoadMore, characterData}) {
+
+  const navigate = useNavigate()
+
   return (
     <div className='donorsContainer'>
       <main className='resultGrid'>
         {data.Page.characters.map((Character) => {
           return (
             isValidDonor(Character.bloodType,characterData.bloodType) && Character.id !== characterData.id &&
-              <div className = 'result' key={Character.id}>
+              <div className = 'result' key={Character.id} onClick={() => navigate("/Transfusion", {state:{Character, characterData}})}>
                 <img className = 'image' src = {Character.image.medium} alt="character pic"></img>
                 <h2>{Character.name.userPreferred}</h2>
                 <p>Bloodtype: {Character.bloodType}</p>

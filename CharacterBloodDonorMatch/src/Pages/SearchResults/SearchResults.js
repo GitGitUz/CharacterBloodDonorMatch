@@ -14,7 +14,7 @@ export default function SearchResults() {
   const name = location.state;
 
   return (
-    <main className='resultsbody'>
+    <main className='body'>
       <h1 id='header'>Showing results for: "{name}"</h1>
       <hr></hr>
       {useResults(name)}
@@ -59,7 +59,7 @@ function ResultList({data, onLoadMore}) {
       <main className='resultGrid'>
         {data.Page.characters.map((Character) => {
           return ( 
-              <div className='result' key={Character.id} onClick={() =>{Character.bloodType && Character.bloodType!== "O Rh-" && navigate("/Character", {state:Character})}}>
+              <div className='result' key={Character.id} onClick={() =>{Character.bloodType && Character.bloodType!== "O Rh-" && navigate("/Donors", {state:Character})}}>
                 <img className='image' src = {Character.image.medium} alt="character pic"></img>
                 <h2>{Character.name.userPreferred}</h2>
                 <p>Bloodtype: {Character.bloodType? Character.bloodType:"UNKNOWN"}</p>
@@ -91,7 +91,6 @@ export function mostPopularMedia(mediaList){
     if(mostPopularMedia === null){
         return 'UNKNOWN'
       }else{
-        console.log(mostPopularMedia.type);
         return `${mostPopularMedia.type}: ${mostPopularMedia.title.english? mostPopularMedia.title.english : mostPopularMedia.title.userPreferred}`
       }
 }

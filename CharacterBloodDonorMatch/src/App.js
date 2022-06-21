@@ -1,8 +1,8 @@
 import Home from "./Pages/Home/Home";
-import Character from "./Pages/Character/Character";
+import Donors from "./Pages/Donors/Donors";
+import Transfusion from "./Pages/Transfusion/Transfusion";
 import SearchResults from "./Pages/SearchResults/SearchResults";
 import { Route, Routes } from "react-router-dom"
-// import "./App.css"
 
 function App() {
   return (
@@ -10,7 +10,8 @@ function App() {
       <Routes>
         <Route exact path="/" element = {<Home/>}/>
         <Route exact path="/SearchResults" element = {<SearchResults/>}/>
-        <Route exact path="/Character" element = {<Character/>}/>
+        <Route exact path="/Donors" element = {<Donors/>}/>
+        <Route exact path="/Transfusion" element = {<Transfusion/>}/>
       </Routes>
     </div>
   );

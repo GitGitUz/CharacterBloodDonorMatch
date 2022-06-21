@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@600&display=swap');
+
+html, body { 
+    margin: 0;
+    padding: 0; 
+    height: 100%; 
+    width: 100%;
+} 
+
+.transfusionbody{
+    width: 100vw;
+    height: 100vh;
+    text-align: center;
+    background-color: antiquewhite;
+    display:inline-block;
+    background-repeat:repeat;
+    
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+.transfusionContainer{
+    margin-top: 10em;
+    display:flex;
+    flex-direction: row;
+    font-family: 'Source Sans Pro', sans-serif;
+    justify-content: center;
+    align-items: center;
+}
+
+.donor{
+    border: 1px solid black;    
+    border-radius: 12px;
+    width: 12em;    
+}
+
+.recipient{
+    border: 1px solid black;    
+    border-radius: 12px;
+    width: 12em;
+}
+
+.startandbar{
+    /* border: 1px solid black;     */
+    display:flex;
+    flex-direction: column;  
+    width: 10em;
+    /* justify-content: center; */
+  
+    align-items: center;
+
+}
+
+#startBtn{
+}
+
+#progressbar{
+    /* border: 1px solid black;     */
+    margin-top: 0.5em;
+}

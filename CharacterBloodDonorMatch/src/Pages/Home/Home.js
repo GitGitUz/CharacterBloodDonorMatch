@@ -16,8 +16,8 @@ export default function Home() {
           navigate("/SearchResults", {state:name})
         }}>Search</button>
         <p id='message'>Your favorite anime character's life might be in danger!
-           Search for them above and hopefully there are some willing
-           blood donors available...</p>
+           Search for them above and hopefully, willing
+           blood donors are available...</p>
       </div>
     </main>
    
