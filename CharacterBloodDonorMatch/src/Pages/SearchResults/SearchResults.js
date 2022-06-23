@@ -55,11 +55,12 @@ function ResultList({data, onLoadMore}) {
   const navigate = useNavigate()
 
   return (
-    <div className='resultsContainer'>
+    data.Page.characters.length > 0 ? 
+    (<div className='resultsContainer'>
       <main className='resultGrid'>
         {data.Page.characters.map((Character) => {
           return ( 
-              <div className='result' key={Character.id} onClick={() =>{Character.bloodType && Character.bloodType!== "O Rh-" && navigate("/Donors", {state:Character})}}>
+              <div className='result' key={Character.id} onClick={() =>{Character.bloodType && Character.bloodType!== "O Rh-" && navigate(`${Character.id}`, {state:Character})}}>
                 <img className='image' src = {Character.image.medium} alt="character pic"></img>
                 <h2>{Character.name.userPreferred}</h2>
                 <p>Bloodtype: {Character.bloodType? Character.bloodType:"UNKNOWN"}</p>
@@ -69,11 +70,11 @@ function ResultList({data, onLoadMore}) {
         })}
       </main>
       <hr></hr>
-      {data.Page.characters.length > 0 ? 
-      (data.Page.pageInfo.hasNextPage && <button id = 'loadBtn' disabled ={!data.Page.pageInfo.hasNextPage} onClick={onLoadMore}>Load more...</button>)
-       : 
-      <div>No character found</div>}
-    </div>
+      {data.Page.pageInfo.hasNextPage && <button id = 'loadBtn' disabled ={!data.Page.pageInfo.hasNextPage} onClick={onLoadMore}>Load more...</button>}
+    </div>) 
+    : 
+    <div id='noChar'>No character found</div>
+
   ); 
 }
 

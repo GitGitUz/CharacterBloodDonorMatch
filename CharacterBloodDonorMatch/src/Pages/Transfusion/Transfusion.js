@@ -1,4 +1,4 @@
-import { React, useState, useEffect } from 'react'
+import { React, useState } from 'react'
 import { useLocation } from 'react-router';
 import { mostPopularMedia } from '../SearchResults/SearchResults';
 import ProgressBar from "@ramonak/react-progress-bar";
@@ -11,12 +11,6 @@ export default function Transfusion() {
 
     const donor = location.state.Character
     const recipient = location.state.characterData
-
-    useEffect(()=>{
-        if(pb.completed === 100){
-            console.log("COMPLETED")
-        }
-    })
 
     const pb = (c) => {
         return (
@@ -34,16 +28,21 @@ export default function Transfusion() {
 
   return (
     <main className='transfusionbody'>
+        <h1 id='transfusionHeader'>Thanks {donor.name.userPreferred}! Press the button to begin.</h1>
         <div className='transfusionContainer'>
             <div className='donor'>
                 <h1>DONOR</h1>
                 <img className='image' src = {donor.image.medium} alt="donor pic"></img>
                 <h2>{donor.name.userPreferred}</h2>
                 <p>Bloodtype: {donor.bloodType? donor.bloodType:"UNKNOWN"}</p>
-                <p>{mostPopularMedia(donor.media.nodes)}</p>
             </div>
             <div className='startandbar'>
-                <button id='startBtn' onClick={()=>setCompleted(100)}>START</button>
+                <button id='startBtn' onClick={()=>{
+                    setCompleted(100);
+                    setTimeout(() => {
+                        console.log('This will run after 10 seconds!')
+                      }, 10000);
+                }}>START</button>
                 <div id='progressbar'>{pb(completed)}</div>
             </div>
            
@@ -52,7 +51,6 @@ export default function Transfusion() {
                 <img className='image' src = {recipient.image.medium} alt="recipient pic"></img>
                 <h2>{recipient.name.userPreferred}</h2>
                 <p>Bloodtype: {recipient.bloodType? recipient.bloodType:"UNKNOWN"}</p>
-                <p>{mostPopularMedia(recipient.media.nodes)}</p>
             </div>
         </div>
     </main>

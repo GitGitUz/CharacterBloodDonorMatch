@@ -64,7 +64,7 @@ function DonorList({data, onLoadMore, characterData}) {
         {data.Page.characters.map((Character) => {
           return (
             isValidDonor(Character.bloodType,characterData.bloodType) && Character.id !== characterData.id &&
-              <div className = 'result' key={Character.id} onClick={() => navigate("/Transfusion", {state:{Character, characterData}})}>
+              <div className = 'result' key={Character.id} onClick={() => navigate(`${Character.id}->${characterData.id}`, {state:{Character, characterData}})}>
                 <img className = 'image' src = {Character.image.medium} alt="character pic"></img>
                 <h2>{Character.name.userPreferred}</h2>
                 <p>Bloodtype: {Character.bloodType}</p>
