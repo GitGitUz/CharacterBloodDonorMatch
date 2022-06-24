@@ -3,6 +3,7 @@ import { useQuery } from '@apollo/client'
 import { useLocation } from 'react-router';
 import { useNavigate } from 'react-router-dom';
 import { GET_CHARACTERS } from '../../Queries/gql';
+import NurseJoy from '../../Images/nursejoy.png'
 import "./SearchResults.css"
 
 export default function SearchResults() {
@@ -16,7 +17,7 @@ export default function SearchResults() {
   return (
     <main className='body'>
       <h1 id='header'>Showing results for: "{name}"</h1>
-      <hr></hr>
+      <hr className='hline'></hr>
       {useResults(name)}
     </main>
   )
@@ -57,19 +58,20 @@ function ResultList({data, onLoadMore}) {
   return (
     data.Page.characters.length > 0 ? 
     (<div className='resultsContainer'>
+      <img className='nurseJoy' src={NurseJoy} alt='nurse joy overlay'></img>
       <main className='resultGrid'>
         {data.Page.characters.map((Character) => {
           return ( 
               <div className='result' key={Character.id} onClick={() =>{Character.bloodType && Character.bloodType!== "O Rh-" && navigate(`${Character.id}`, {state:Character})}}>
                 <img className='image' src = {Character.image.medium} alt="character pic"></img>
                 <h2>{Character.name.userPreferred}</h2>
-                <p>Bloodtype: {Character.bloodType? Character.bloodType:"UNKNOWN"}</p>
+                <p>Bloodtype: {Character.bloodType? (Character.bloodType ===  'S'||'X'||'F'||'XF'||(Character.bloodType.normalize() === "S Rh") ? onePieceToNormal(Character.bloodType):Character.bloodType):"UNKNOWN"}</p>
                 <p>{mostPopularMedia(Character.media.nodes)}</p>
               </div>
           );
         })}
       </main>
-      <hr></hr>
+      <hr className='hline'></hr>
       {data.Page.pageInfo.hasNextPage && <button id = 'loadBtn' disabled ={!data.Page.pageInfo.hasNextPage} onClick={onLoadMore}>Load more...</button>}
     </div>) 
     : 
@@ -95,5 +97,16 @@ export function mostPopularMedia(mediaList){
         return `${mostPopularMedia.type}: ${mostPopularMedia.title.english? mostPopularMedia.title.english : mostPopularMedia.title.userPreferred}`
       }
 }
+
+//utility function that displays One Piece bloodtypes with equivalent bloodtypes
+ export function onePieceToNormal(opBloodType){
+  var expandedBloodType =  opBloodType === "S" ? "S (O)" : 
+                          (opBloodType === "X"? "X (A)" : 
+                          (opBloodType === "F"? "F (B)": 
+                          (opBloodType === "XF"? "XF (AB)":
+                          (opBloodType === "S Rh+"? "S (O)": 
+                           opBloodType))))
+  return expandedBloodType
+ }
 
 

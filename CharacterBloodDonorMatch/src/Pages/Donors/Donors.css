@@ -10,3 +10,44 @@ html, body {
 .recipientContainer{
     font-family: 'Source Sans Pro', sans-serif;
 }
+
+.recip{
+    margin: auto;
+    margin-top: 1em;
+    border: 2px solid black;    
+    border-radius: 12px;
+    background-color:#e8e8a8;
+    width:20%;
+}
+
+.recipImage{
+    margin-top: 1em;
+    max-height: 10em;
+    border: 5px outset rgb(207, 84, 68);
+    border-radius: 3px;
+}
+
+#header2{
+    font-family: 'Source Sans Pro', sans-serif;
+    padding: 0.3em;
+    border-radius: 25px;
+    border: 2px solid black;
+    margin: auto;
+    margin-top: 0.5em;
+    width:33%;
+    background-color: rgba(224, 136, 96, 0.85);
+}
+
+@media (max-width: 430px) { 
+
+    .recip{
+        width: 70%;
+    }
+
+    #header2{
+        width: 80%;
+        font-size: 1em;
+    }
+
+
+}

@@ -11,18 +11,21 @@ html, body {
     width: 100vw;
     height: 100vh;
     text-align: center;
-    background-color: antiquewhite;
+    background-image: url("../../Images/recoverygirloffice.png");
+    background-repeat:no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat:no-repeat;
+    background-size: cover;
     display:inline-block;
-    background-repeat:repeat;
     
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;
 }
 
 .transfusionContainer{
-    margin-top: 2em;
+    margin-top: 13em;
     display:flex;
     flex-direction: row;
     font-family: 'Source Sans Pro', sans-serif;
@@ -30,69 +33,84 @@ html, body {
     align-items: center;
 }
 
-.donor{
-    border: 1px solid black;    
+.donorInfo{
+    border: 2px solid black;
+    background-color: rgba(161, 180, 211, 0.85);    
     border-radius: 12px;
-    width: 12em;    
+    width: 15em;
+    padding: 0.5em;
 }
 
-.recipient{
-    border: 1px solid black;    
+.recipientInfo{
+    border: 2px solid black;  
+    background-color: rgba(239, 246, 253, 0.85);      
     border-radius: 12px;
-    width: 12em;
+    width: 15em;
+    padding: 0.5em;
 }
 
 .startandbar{
-    /* border: 1px solid black;     */
     display:flex;
     flex-direction: column;  
     width: 10em;  
     align-items: center;
 }
 
-#transfusionHeader{
-    margin-top: 3em;
-    font-family: 'Source Sans Pro', sans-serif;
+h1, p{
+    margin: 0em;
+
 }
 
+.role{
+    margin-bottom: 1em;
+    font-style: italic;
+}
+
+.recoverygirl{
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 209px;
+}
+
+
 #startBtn{
-    
+    font-family: 'Source Sans Pro', sans-serif;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+#startBtn:hover {
+    background-color: #689fc3;
+    border: 1px solid black;
+    color: rgb(255, 255, 255);
 }
 
 #progressbar{
-    /* border: 1px solid black;     */
     margin-top: 0.5em;
 }
 
 @media (max-width: 430px) { 
 
-    .transfusionbody{
-        width: auto;
-        height: auto;
+    .recoverygirl{
+        width: 100px;
+        top: 20.65em;
+        margin-left: 10em;
     }
 
     .transfusionContainer{
-        margin-bottom: 1em;
+        margin-top: 3em;
         flex-direction: column;
-        font-family: 'Source Sans Pro', sans-serif;
-        justify-content: center;
-        align-items: center;
-    }
-
-    #progressbar{
-        transform: rotate(90deg);
-        margin-top: 0em;
-        padding-top: 7em;
-    }
-
-    #transfusionHeader{
-        margin-top: 1em;
     }
 
     .startandbar{
         flex-direction: row;
         min-height: 10em;
-    }
+    } 
     
-
+    #progressbar{
+        transform: rotate(90deg);
+        margin-top: 0em;
+        padding-top: 7em;
+    }
 }

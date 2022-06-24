@@ -1,7 +1,8 @@
 import { React, useState } from 'react'
-import { useLocation } from 'react-router';
-import { mostPopularMedia } from '../SearchResults/SearchResults';
+import { useLocation, useNavigate } from 'react-router';
 import ProgressBar from "@ramonak/react-progress-bar";
+import { onePieceToNormal } from '../SearchResults/SearchResults';
+import RecoveryGirl from '../../Images/recoverygirl.png'
 import "./Transfusion.css"
 
 export default function Transfusion() {
@@ -17,40 +18,42 @@ export default function Transfusion() {
             <ProgressBar 
                 completed={c}
                 bgColor='#a90b10'
-                height='15px'
+                height='30px'
                 width='10em'
-                borderRadius='5px'
+                borderRadius='0px'
                 isLabelVisible={false}
                 transitionDuration='10s'
             />
         );
     };
 
+const navigate = useNavigate()
+
   return (
     <main className='transfusionbody'>
-        <h1 id='transfusionHeader'>Thanks {donor.name.userPreferred}! Press the button to begin.</h1>
+        <img className='recoverygirl' src={RecoveryGirl} alt='recovery girl overlay'></img>
         <div className='transfusionContainer'>
-            <div className='donor'>
-                <h1>DONOR</h1>
+            <div className='donorInfo'>
                 <img className='image' src = {donor.image.medium} alt="donor pic"></img>
-                <h2>{donor.name.userPreferred}</h2>
-                <p>Bloodtype: {donor.bloodType? donor.bloodType:"UNKNOWN"}</p>
+                <p className='role'>(DONOR)</p>
+                <h1>{donor.name.userPreferred}</h1>
+                <p>Bloodtype: {donor.bloodType ===  'S'||'X'||'F'||'XF'||(donor.bloodType.normalize() === "S Rh") ? onePieceToNormal(donor.bloodType):donor.bloodType}</p>
             </div>
             <div className='startandbar'>
                 <button id='startBtn' onClick={()=>{
                     setCompleted(100);
                     setTimeout(() => {
                         console.log('This will run after 10 seconds!')
+                        navigate("/Success",{state:recipient});
                       }, 10000);
                 }}>START</button>
                 <div id='progressbar'>{pb(completed)}</div>
             </div>
-           
-            <div className='recipient'>
-                <h1>RECIPIENT</h1>
+            <div className='recipientInfo'>
                 <img className='image' src = {recipient.image.medium} alt="recipient pic"></img>
-                <h2>{recipient.name.userPreferred}</h2>
-                <p>Bloodtype: {recipient.bloodType? recipient.bloodType:"UNKNOWN"}</p>
+                <p className='role'>(RECIPIENT)</p>
+                <h1>{recipient.name.userPreferred}</h1>
+                <p>Bloodtype: {recipient.bloodType ===  'S'||'X'||'F'||'XF'||(recipient.bloodType.normalize() === "S Rh") ? onePieceToNormal(recipient.bloodType):recipient.bloodType}</p>    
             </div>
         </div>
     </main>

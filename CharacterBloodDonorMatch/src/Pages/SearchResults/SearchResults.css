@@ -8,43 +8,68 @@ html, body {
 } 
 
 .body{
-    width: 100vw;
-    height: 100%;
+    width: 100%;
+    min-height: 100vh;
     text-align: center;
-    background-color: antiquewhite;
+    background-image: url("../../Images/pokecenter.png");
+    background-repeat:no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
     display:inline-block;
-    background-repeat:repeat;
     
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
-    background-size: cover;
+}
+
+.hline{
+    height: 1px;
+    background-color: rgba(0, 0, 0, 0.1);
+    border: none;
 }
 
 .resultsContainer{
+}
 
+.nurseJoy{
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 209px;
 }
 
 .resultGrid{
     font-family: 'Source Sans Pro', sans-serif;
     display: grid;
-    gap: 1rem;
+    gap: 2rem;
     grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
     justify-items: center;
 }
 
 .result{
-    border: 1px solid black;    
+    border: 2px solid black;    
     border-radius: 12px;
-    width: 70%;
+    background-color: rgba(248, 128, 112, 0.85);
+    width: 60%;
 }
 
 .image{
+    margin-top: 1em;
     max-height: 10em;
+    border: 5px inset #e8e8a8;
+    border-radius: 3px;
 }
 
 #header {
     font-family: 'Source Sans Pro', sans-serif;
+    padding: 0.4em;
+    border-radius: 10px;
+    border: 2px solid black;
+    margin: auto;
+    margin-top: 0.5em;
+    width:20%;
+    background-color: rgba(232, 232, 168, .80);
 }
 
 #loadBtn{
@@ -59,7 +84,12 @@ html, body {
 
 #noChar{
     font-family: 'Source Sans Pro', sans-serif;
-    min-height: 100vh;
+    margin: auto;
+    border: 2px solid black;    
+    border-radius: 12px;
+    background-color: rgba(248, 128, 112, 0.85);
+    width: 10%;
+    padding: 0.5em;
 }
 
 .loader{
@@ -77,4 +107,20 @@ html, body {
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+@media (max-width: 430px){
+
+    .nurseJoy{
+        width: 150px;
+    }
+
+    #header{
+        min-width: 55%;
+        font-size: 1em;
+    }
+
+    #noChar{
+        width: 40%;
+    }
 }

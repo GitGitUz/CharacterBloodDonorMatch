@@ -4,7 +4,6 @@ import "./Home.css"
 
 export default function Home() {
   const [name, setName] = useState("")
-  console.log("Name:",name)
   const navigate = useNavigate();
 
   return (

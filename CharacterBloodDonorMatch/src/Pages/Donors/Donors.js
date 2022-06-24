@@ -2,7 +2,9 @@ import { React } from 'react'
 import { useQuery } from "@apollo/client";
 import { useLocation, useNavigate } from 'react-router';
 import { mostPopularMedia } from '../SearchResults/SearchResults';
+import { onePieceToNormal } from '../SearchResults/SearchResults';
 import { GET_DONORS } from '../../Queries/gql';
+import NurseJoy from '../../Images/nursejoy2.png'
 import "./Donors.css"
 
 export default function Donors() {
@@ -15,13 +17,16 @@ export default function Donors() {
 
     return(
       <main className = 'body'>
+        <img className='nurseJoy' src={NurseJoy} alt='nurse joy overlay'></img>
         <div className='recipientContainer'>
-          <h1>{recipient.name.userPreferred}'s Possible Blood Donors</h1>
-          <img src = {recipient.image.medium} alt='recipient pic'></img>
-          <p>Bloodtype: {recipient.bloodType}</p>
-          <p>{mostPopularMedia(recipient.media.nodes)}</p>
+          <h1 id='header2'>{recipient.name.userPreferred}'s Possible Blood Donors</h1>
+          <div className='recip'>
+            <img className = 'recipImage' src = {recipient.image.medium} alt='recipient pic'></img>
+            <p>Bloodtype: {recipient.bloodType ===  'S'||'X'||'F'||'XF'||(recipient.bloodType.normalize() === "S Rh") ? onePieceToNormal(recipient.bloodType):recipient.bloodType}</p>
+            <p>{mostPopularMedia(recipient.media.nodes)}</p>
+          </div>
         </div>
-        <hr></hr>
+        <hr className='hline'></hr>
         {useDonors(recipient)}
       </main> 
     );
@@ -64,16 +69,16 @@ function DonorList({data, onLoadMore, characterData}) {
         {data.Page.characters.map((Character) => {
           return (
             isValidDonor(Character.bloodType,characterData.bloodType) && Character.id !== characterData.id &&
-              <div className = 'result' key={Character.id} onClick={() => navigate(`${Character.id}->${characterData.id}`, {state:{Character, characterData}})}>
+              <div className = 'result' key={Character.id} onClick={() => navigate(`${characterData.id}+${Character.id}`, {state:{Character, characterData}})}>
                 <img className = 'image' src = {Character.image.medium} alt="character pic"></img>
                 <h2>{Character.name.userPreferred}</h2>
-                <p>Bloodtype: {Character.bloodType}</p>
+                <p>Bloodtype: {Character.bloodType ===  'S'||'X'||'F'||'XF'||(Character.bloodType.normalize() === "S Rh") ? onePieceToNormal(Character.bloodType):Character.bloodType}</p>
                 <p>{mostPopularMedia(Character.media.nodes)}</p>
               </div>
           );
         })}
       </main>
-      <hr></hr>
+      <hr className='hline'></hr>
       {data.Page.pageInfo.hasNextPage && <button id = 'loadBtn' disabled ={!data.Page.pageInfo.hasNextPage} onClick={onLoadMore}>Load more...</button>}
     </div>
   ); 
