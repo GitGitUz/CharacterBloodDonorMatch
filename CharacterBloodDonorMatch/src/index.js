@@ -14,8 +14,8 @@ const client = new ApolloClient({ //gives Apollo client information about GQL en
           characters: {
             keyArgs: [],
             merge(existing=[], incoming) {
-              // console.log('EXISTING CHARS', existing);
-              // console.log('INCOMING CHARS', incoming);
+              console.log('EXISTING CHARS', existing);
+              console.log('INCOMING CHARS', incoming);
               return [...existing, ...incoming];
             },
           },

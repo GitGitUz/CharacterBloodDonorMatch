@@ -38,8 +38,6 @@ export const GET_DONORS = gql`
     Page(page: $page){
       pageInfo {      
         currentPage
-        perPage
-        lastPage
         hasNextPage
       }
       characters(sort: FAVOURITES_DESC){

@@ -27,9 +27,8 @@ function useResults(name){
 
   const { loading, error, data, fetchMore } = useQuery(GET_CHARACTERS, {
     variables: {
-      name: name,
-      page: 1
-    }  
+      name: name
+    }
   });
 
   console.log(loading, error, data)
@@ -55,6 +54,12 @@ function ResultList({data, onLoadMore}) {
 
   const navigate = useNavigate()
 
+  
+  const nav=((url, data)=>{
+    navigate(url, {state:data})
+    window.location.reload(false)
+  })
+
   return (
     data.Page.characters.length > 0 ? 
     (<div className='resultsContainer'>
@@ -62,7 +67,7 @@ function ResultList({data, onLoadMore}) {
       <main className='resultGrid'>
         {data.Page.characters.map((Character) => {
           return ( 
-              <div className='result' key={Character.id} onClick={() =>{Character.bloodType && Character.bloodType!== "O Rh-" && navigate(`${Character.id}`, {state:Character})}}>
+              <div className='result' key={Character.id} onClick={() =>{Character.bloodType && Character.bloodType!== "O Rh-" && nav(`${Character.id}`,Character)}}>
                 <img className='image' src = {Character.image.medium} alt="character pic"></img>
                 <h2>{Character.name.userPreferred}</h2>
                 <p>Bloodtype: {Character.bloodType? (Character.bloodType ===  'S'||'X'||'F'||'XF'||(Character.bloodType.normalize() === "S Rh") ? onePieceToNormal(Character.bloodType):Character.bloodType):"UNKNOWN"}</p>
@@ -76,7 +81,6 @@ function ResultList({data, onLoadMore}) {
     </div>) 
     : 
     <div id='noChar'>No character found</div>
-
   ); 
 }
 

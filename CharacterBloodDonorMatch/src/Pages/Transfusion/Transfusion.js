@@ -36,24 +36,24 @@ const navigate = useNavigate()
             <div className='donorInfo'>
                 <img className='image' src = {donor.image.medium} alt="donor pic"></img>
                 <p className='role'>(DONOR)</p>
-                <h1>{donor.name.userPreferred}</h1>
-                <p>Bloodtype: {donor.bloodType ===  'S'||'X'||'F'||'XF'||(donor.bloodType.normalize() === "S Rh") ? onePieceToNormal(donor.bloodType):donor.bloodType}</p>
+                <h1 className='test'>{donor.name.userPreferred}</h1>
+                <p className='test'>Bloodtype: {donor.bloodType ===  'S'||'X'||'F'||'XF'||(donor.bloodType.normalize() === "S Rh") ? onePieceToNormal(donor.bloodType):donor.bloodType}</p>
             </div>
             <div className='startandbar'>
                 <button id='startBtn' onClick={()=>{
                     setCompleted(100);
                     setTimeout(() => {
-                        console.log('This will run after 10 seconds!')
+                        console.log('This will run after 10.5 seconds!')
                         navigate("/Success",{state:recipient});
-                      }, 10000);
+                      }, 10500);
                 }}>START</button>
                 <div id='progressbar'>{pb(completed)}</div>
             </div>
             <div className='recipientInfo'>
                 <img className='image' src = {recipient.image.medium} alt="recipient pic"></img>
                 <p className='role'>(RECIPIENT)</p>
-                <h1>{recipient.name.userPreferred}</h1>
-                <p>Bloodtype: {recipient.bloodType ===  'S'||'X'||'F'||'XF'||(recipient.bloodType.normalize() === "S Rh") ? onePieceToNormal(recipient.bloodType):recipient.bloodType}</p>    
+                <h1 className='test'>{recipient.name.userPreferred}</h1>
+                <p className='test'>Bloodtype: {recipient.bloodType ===  'S'||'X'||'F'||'XF'||(recipient.bloodType.normalize() === "S Rh") ? onePieceToNormal(recipient.bloodType):recipient.bloodType}</p>    
             </div>
         </div>
     </main>

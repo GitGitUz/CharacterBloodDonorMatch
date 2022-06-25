@@ -6,3 +6,85 @@ html, body {
     min-height: 100%; 
     min-width: 100%;
 } 
+
+.successbody{
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+    background-image: url("../../Images/drumisland.png");
+    background-repeat:no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat:no-repeat;
+    background-size: cover;
+    display:inline-block;
+    
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+}
+
+.successContainer{
+    margin-top: 2em;
+    margin-bottom: 1em;
+    font-family: 'Source Sans Pro', sans-serif;
+    text-align: center;
+}
+
+.chopper{
+    padding: 1.5em;
+    width: 35%;
+}
+
+#thanks{
+    border-radius: 20px;
+    border: 2px solid black;
+    padding: 0.5em;
+    margin: auto;
+    width: 45%;
+    background-color: #e76179;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-size: 1.5em;
+}
+
+#gohomeprompt{
+  font-style: italic;  
+}
+
+#homeBtn{
+    margin-top: 0.5em;
+    padding: 0.5em;
+    font-family: 'Source Sans Pro', sans-serif;
+    border: 1px solid black;
+    border-radius: 5px;
+}
+
+#homeBtn:hover {
+    background-color: #689fc3;
+    border: 1px solid black;
+    color: rgb(255, 255, 255);
+}
+
+@media(max-width: 430px) {
+
+    .successContainer{
+        margin-top: 5em;
+        margin-bottom: 0em;
+    }
+
+    .chopper{
+        width: 90%;
+    }
+
+    #thanks{
+        width: 80%;
+    }
+
+    #gohomeprompt{
+        font-size: 0.9em;
+    }
+
+    #homeBtn{
+        font-size: 1.5em;
+    }
+}

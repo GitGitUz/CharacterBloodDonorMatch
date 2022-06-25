@@ -31,8 +31,8 @@ export default function Donors() {
       </main> 
     );
 }
-//-------------INFINITE SCROLL PAGINATION-------------
-function useDonors(characterData){
+
+function useDonors(recipientData){
   const { loading, error, data, fetchMore } = useQuery(GET_DONORS, {
     variables: {
       page: 1
@@ -54,12 +54,13 @@ function useDonors(characterData){
           }        
         })
       }
-      characterData = {characterData}
+      characterData = {recipientData}
     />
   ); 
 }
 
 function DonorList({data, onLoadMore, characterData}) {
+  console.log("Data in DonorList", data)
 
   const navigate = useNavigate()
 
