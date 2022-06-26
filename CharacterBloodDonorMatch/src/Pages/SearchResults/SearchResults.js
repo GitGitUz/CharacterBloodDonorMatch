@@ -67,7 +67,7 @@ function ResultList({data, onLoadMore}) {
       <main className='resultGrid'>
         {data.Page.characters.map((Character) => {
           return ( 
-              <div className='result' key={Character.id} onClick={() =>{Character.bloodType && Character.bloodType!== "O Rh-" && nav(`${Character.id}`,Character)}}>
+              <div className='result' key={Character.id} onClick={() =>{Character.bloodType && Character.bloodType!== "O Rh-" && nav("/Donors",Character)}}>
                 <img className='image' src = {Character.image.medium} alt="character pic"></img>
                 <h2>{Character.name.userPreferred}</h2>
                 <p>Bloodtype: {Character.bloodType? (Character.bloodType ===  'S'||'X'||'F'||'XF'||(Character.bloodType.normalize() === "S Rh") ? onePieceToNormal(Character.bloodType):Character.bloodType):"UNKNOWN"}</p>
