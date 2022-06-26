@@ -73,8 +73,11 @@ html, body {
 }
 
 #loadBtn{
-    width: 7em;
+    width: 8em;
     margin-bottom: 0.5em;
+    font-family: 'Source Sans Pro', sans-serif;
+    border-radius: 7px;
+
 }
 
 #loadBtn:hover {
