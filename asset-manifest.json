@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/CharacterBloodDonorMatch/static/css/main.fcb1a4ee.css",
+    "main.css": "/CharacterBloodDonorMatch/static/css/main.0148f2c2.css",
     "main.js": "/CharacterBloodDonorMatch/static/js/main.d438d3ac.js",
     "static/media/luffyjimbei.png": "/CharacterBloodDonorMatch/static/media/luffyjimbei.e4db9a5953577a6d7655.png",
     "static/media/chopper.png": "/CharacterBloodDonorMatch/static/media/chopper.4ba21cbd957e4a199e20.png",
@@ -13,11 +13,11 @@
     "static/media/nursejoy.png": "/CharacterBloodDonorMatch/static/media/nursejoy.ff54a97a0ad86ed0a98f.png",
     "static/media/nursejoy2.png": "/CharacterBloodDonorMatch/static/media/nursejoy2.83bde6290b0e96e00c71.png",
     "index.html": "/CharacterBloodDonorMatch/index.html",
-    "main.fcb1a4ee.css.map": "/CharacterBloodDonorMatch/static/css/main.fcb1a4ee.css.map",
+    "main.0148f2c2.css.map": "/CharacterBloodDonorMatch/static/css/main.0148f2c2.css.map",
     "main.d438d3ac.js.map": "/CharacterBloodDonorMatch/static/js/main.d438d3ac.js.map"
   },
   "entrypoints": [
-    "static/css/main.fcb1a4ee.css",
+    "static/css/main.0148f2c2.css",
     "static/js/main.d438d3ac.js"
   ]
 }
