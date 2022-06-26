@@ -1,23 +1,23 @@
 {
   "files": {
-    "main.css": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/css/main.912fa878.css",
-    "main.js": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/js/main.e7f5e2b4.js",
-    "static/media/luffyjimbei.png": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/media/luffyjimbei.e4db9a5953577a6d7655.png",
-    "static/media/chopper.png": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/media/chopper.4ba21cbd957e4a199e20.png",
-    "static/media/drumisland.png": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/media/drumisland.65d599944650276376e8.png",
-    "static/media/pokecenter.png": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/media/pokecenter.1b66f26f6577e645cd35.png",
-    "static/media/luffyjimbeiV.png": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/media/luffyjimbeiV.1b28ee65eac497127770.png",
-    "static/media/recoverygirloffice.png": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/media/recoverygirloffice.77b13fc709a615ecc373.png",
-    "static/media/recoverygirl.png": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/media/recoverygirl.96b221831781939a4c50.png",
-    "static/media/recoverygirlofficeV.png": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/media/recoverygirlofficeV.e4a03ed28dea79350665.png",
-    "static/media/nursejoy.png": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/media/nursejoy.ff54a97a0ad86ed0a98f.png",
-    "static/media/nursejoy2.png": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/media/nursejoy2.83bde6290b0e96e00c71.png",
-    "index.html": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/index.html",
-    "main.912fa878.css.map": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/css/main.912fa878.css.map",
-    "main.e7f5e2b4.js.map": "/CharacterBloodDonorMatch/CharacterBloodDonorMatch/static/js/main.e7f5e2b4.js.map"
+    "main.css": "/CharacterBloodDonorMatch/static/css/main.fcb1a4ee.css",
+    "main.js": "/CharacterBloodDonorMatch/static/js/main.69741152.js",
+    "static/media/luffyjimbei.png": "/CharacterBloodDonorMatch/static/media/luffyjimbei.e4db9a5953577a6d7655.png",
+    "static/media/chopper.png": "/CharacterBloodDonorMatch/static/media/chopper.4ba21cbd957e4a199e20.png",
+    "static/media/drumisland.png": "/CharacterBloodDonorMatch/static/media/drumisland.65d599944650276376e8.png",
+    "static/media/pokecenter.png": "/CharacterBloodDonorMatch/static/media/pokecenter.1b66f26f6577e645cd35.png",
+    "static/media/luffyjimbeiV.png": "/CharacterBloodDonorMatch/static/media/luffyjimbeiV.1b28ee65eac497127770.png",
+    "static/media/recoverygirloffice.png": "/CharacterBloodDonorMatch/static/media/recoverygirloffice.77b13fc709a615ecc373.png",
+    "static/media/recoverygirl.png": "/CharacterBloodDonorMatch/static/media/recoverygirl.96b221831781939a4c50.png",
+    "static/media/recoverygirlofficeV.png": "/CharacterBloodDonorMatch/static/media/recoverygirlofficeV.e4a03ed28dea79350665.png",
+    "static/media/nursejoy.png": "/CharacterBloodDonorMatch/static/media/nursejoy.ff54a97a0ad86ed0a98f.png",
+    "static/media/nursejoy2.png": "/CharacterBloodDonorMatch/static/media/nursejoy2.83bde6290b0e96e00c71.png",
+    "index.html": "/CharacterBloodDonorMatch/index.html",
+    "main.fcb1a4ee.css.map": "/CharacterBloodDonorMatch/static/css/main.fcb1a4ee.css.map",
+    "main.69741152.js.map": "/CharacterBloodDonorMatch/static/js/main.69741152.js.map"
   },
   "entrypoints": [
-    "static/css/main.912fa878.css",
-    "static/js/main.e7f5e2b4.js"
+    "static/css/main.fcb1a4ee.css",
+    "static/js/main.69741152.js"
   ]
 }
