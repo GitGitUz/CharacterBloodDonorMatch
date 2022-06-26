@@ -29,7 +29,7 @@ const client = new ApolloClient({ //gives Apollo client information about GQL en
 const root = ReactDOM.createRoot(document.getElementById('root')); //establishes connection between Apollo client and React app
 root.render(  
   <React.StrictMode>
-    <BrowserRouter basename={process.env.PUBLIC_URL}>
+    <BrowserRouter basename="/">
       <ApolloProvider client={client}>
         <App />
       </ApolloProvider>

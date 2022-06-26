@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        <Route exact path="/CharacterBloodDonorMatch" element = {<Home/>}/>
+        <Route exact path="/" element = {<Home/>}/>
         <Route exact path="/SearchResults" element = {<SearchResults/>}/>
         <Route exact path="/SearchResults/Donors" element = {<Donors/>}/>
         <Route exact path="/SearchResults/Donors/Transfusion" element = {<Transfusion/>}/>
