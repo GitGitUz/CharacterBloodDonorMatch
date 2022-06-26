@@ -1,7 +1,7 @@
 {
   "name": "characterblooddonormatch",
   "version": "0.1.0",
-  "homepage": "https://GitGitUz.github.io/",
+  "homepage": "https://GitGitUz.github.io/CharacterBloodDonorMatch",
   "private": true,
   "dependencies": {
     "@apollo/client": "^3.6.6",
