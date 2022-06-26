@@ -44,7 +44,7 @@ const navigate = useNavigate()
                     setCompleted(100);
                     setTimeout(() => {
                         console.log('This will run after 10.5 seconds!')
-                        navigate("/Success",{state:recipient});
+                        navigate("/SearchResults/Donors/Transfusion/Success",{state:recipient});
                       }, 10500);
                 }}>START</button>
                 <div id='progressbar'>{pb(completed)}</div>
