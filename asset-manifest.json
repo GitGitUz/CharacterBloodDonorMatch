@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/CharacterBloodDonorMatch/static/css/main.fcb1a4ee.css",
-    "main.js": "/CharacterBloodDonorMatch/static/js/main.79b6ab9b.js",
+    "main.js": "/CharacterBloodDonorMatch/static/js/main.b3aea133.js",
     "static/media/luffyjimbei.png": "/CharacterBloodDonorMatch/static/media/luffyjimbei.e4db9a5953577a6d7655.png",
     "static/media/chopper.png": "/CharacterBloodDonorMatch/static/media/chopper.4ba21cbd957e4a199e20.png",
     "static/media/drumisland.png": "/CharacterBloodDonorMatch/static/media/drumisland.65d599944650276376e8.png",
@@ -14,10 +14,10 @@
     "static/media/nursejoy2.png": "/CharacterBloodDonorMatch/static/media/nursejoy2.83bde6290b0e96e00c71.png",
     "index.html": "/CharacterBloodDonorMatch/index.html",
     "main.fcb1a4ee.css.map": "/CharacterBloodDonorMatch/static/css/main.fcb1a4ee.css.map",
-    "main.79b6ab9b.js.map": "/CharacterBloodDonorMatch/static/js/main.79b6ab9b.js.map"
+    "main.b3aea133.js.map": "/CharacterBloodDonorMatch/static/js/main.b3aea133.js.map"
   },
   "entrypoints": [
     "static/css/main.fcb1a4ee.css",
-    "static/js/main.79b6ab9b.js"
+    "static/js/main.b3aea133.js"
   ]
 }
