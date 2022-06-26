@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
 import { ApolloClient, InMemoryCache, ApolloProvider } from "@apollo/client";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, HashRouter } from "react-router-dom";
 
 const client = new ApolloClient({ //gives Apollo client information about GQL endpoint
   uri: 'https://graphql.anilist.co',
@@ -29,11 +29,11 @@ const client = new ApolloClient({ //gives Apollo client information about GQL en
 const root = ReactDOM.createRoot(document.getElementById('root')); //establishes connection between Apollo client and React app
 root.render(  
   <React.StrictMode>
-    <BrowserRouter basename="/">
+    <HashRouter basename="/">
       <ApolloProvider client={client}>
         <App />
       </ApolloProvider>
-    </BrowserRouter>
+    </HashRouter>
   </React.StrictMode>
 );
 
